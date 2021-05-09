@@ -7,7 +7,7 @@ require 'recipe/common.php';
 set('application', 'dep_test');
 
 // Project repository
-set('repository', '');
+set('repository', 'https://github.com/esgras/deployer-test.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true); 
