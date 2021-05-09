@@ -1,0 +1,4 @@
+---
+  mysql_packages: ['mysql-server', 'python3-mysqldb']
+  db_name: "{{ vault_db_name }}"
+  mysql_root_password: "{{ vault_mysql_root_password }}"

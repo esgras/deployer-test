@@ -1,0 +1,83 @@
+---
+- name: Add php repository
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+  tags:
+    - install
+
+- name: Install php packages
+  become: yes
+  apt:
+    name: "{{ php_cli_packages }}"
+    state: present
+    update_cache: yes
+  tags:
+    - install
+
+- name: php symlink to /usr/local/bin/php
+  become: yes
+  file:
+    src: /usr/bin/php
+    dest: /usr/local/bin/php
+    state: link
+    force: yes
+  tags:
+    - install
+
+- name: Copy composer install script
+  copy:
+    src: scripts/install_composer.sh
+    dest: ~/install_composer.sh
+    mode: '0755'
+  tags:
+    - install
+
+- name: Download composer
+  shell: ~/install_composer.sh
+  tags:
+    - install
+
+- name: Move comoser globally
+  become: true
+  file:
+    src: composer.phar
+    dest: /usr/local/bin/composer
+    mode: '0777'
+    state: hard
+    force: yes
+  tags:
+    - install
+
+- name: Remove composer install script
+  file:
+    path: ~/install_composer.sh
+    state: absent
+  tags:
+    - install
+
+- name: Populate service facts
+  service_facts:
+  tags:
+    - install
+
+- name: Stop apache2 if installed
+  become: yes
+  service:
+    name: apache2
+    state: stopped
+  when: "'apache2' in services"
+  tags:
+    - install
+
+- name: Create project dir
+  become: yes
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0755'
+  tags:
+    - install

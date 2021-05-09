@@ -1,0 +1,9 @@
+[staging]
+192.168.33.10 ansible_user=vagrant app_env=staging
+
+[prod]
+13.51.171.97 ansible_user=ubuntu app_env=prod
+
+[webserver:children]
+staging
+prod

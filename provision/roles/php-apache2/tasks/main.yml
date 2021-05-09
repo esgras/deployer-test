@@ -1,0 +1,35 @@
+---
+- name: Populate service facts
+  service_facts:
+  tags:
+    - install
+
+- name: php-apache2 add ppa:ondrej/php
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+  tags:
+    - install
+
+- name: Create site dir
+  become: yes
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0755'
+  tags:
+    - install
+
+- name: install php-apache2 packages
+  become: yes
+  changed_when: yes
+  apt:
+    name: "{{ php_apache2_packages }}"
+    state: present
+  tags:
+    - install
+  notify: Reload apache2
+

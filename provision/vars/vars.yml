@@ -1,0 +1,6 @@
+---
+project_dir: "/var/www/{{ site_name }}"
+symfony_console_path: "{{ project_dir }}/bin/console"
+app_user: "{{ ansible_user|default('vagrant') }}"
+app_env: prod
+adminer_port: 8089
