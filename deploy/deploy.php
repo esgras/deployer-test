@@ -25,9 +25,9 @@ set('allow_anonymous_stats', false);
 //host('project.com')
 //    ->set('deploy_path', '~/{{application}}');
 
-host('vagrant')
+host('secret.test')
     ->stage('staging')
-    ->set('deploy_path', '~');
+    ->set('deploy_path', '/var/www/vagrant.test');
 
 localhost('localhost')
     ->stage('test')
@@ -35,16 +35,16 @@ localhost('localhost')
     
 
 // Tasks
-
-task('test', function() {
-    writeln("Hello, World");
-});
-
-task('whoami', function() {
-    $whoami = run('whoami');
-    writeln("Whoami: " . $whoami);
-});
-
+//
+//task('test', function() {
+//    writeln("Hello, World");
+//});
+//
+//task('whoami', function() {
+//    $whoami = run('whoami');
+//    writeln("Whoami: " . $whoami);
+//});
+//
 
 desc('Deploy your project');
 task('deploy', [
